@@ -1,7 +1,7 @@
 # Miao-Bot
 
 一个想用go来玩bot的辣鸡选手<br>
-这个文件夹gin-vue-admin-main是以后bot的前端框架，我还想好咋写。<br>
+这个文件夹gin-vue-admin-main是以后bot的前端框架，我还没想好咋写。<br>
 
 > https://github.com/flipped-aurora/gin-vue-admin  想部署前端的看这个link部署即可。
 
@@ -11,7 +11,7 @@
 支持指定普通任务开关 <br>
 支持正则，管理员，判断，快速编写的一个小go插件脚本。<br>
 
-目前未实现的功能（未来计划）<br>
+目前未实现的功能（未来计划：**~~目标：半年完成~~**）<br>
 比如关闭指定的定时任务<br>
 对接telegram的client和bot<br>
 对接qq<br>
@@ -19,8 +19,8 @@
 还有goja编写js<br>
 
 微信机器人交互效果如图：<br><br>
-<img width="511" alt="image" src="https://user-images.githubusercontent.com/73318286/177150218-e1431f55-c42b-4fc6-ba8a-68b30707a90a.png"><br>
+<img width="200" alt="image" src="https://user-images.githubusercontent.com/73318286/177150218-e1431f55-c42b-4fc6-ba8a-68b30707a90a.png"><br>
 
 一起学习合作交流加<br>
 v: a1140601003<br>
-tg：@Hss114060 
+tg：@Hss114060

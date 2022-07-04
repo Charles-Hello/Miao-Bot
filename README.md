@@ -7,7 +7,6 @@
 支持对话式交流，
 支持指定普通任务开关，
 支持正则，管理员，判断，快速编写的一个小go插件脚本。
-<img width="511" alt="image" src="https://user-images.githubusercontent.com/73318286/177150218-e1431f55-c42b-4fc6-ba8a-68b30707a90a.png">
 
 目前未实现的功能（未来计划）
 比如关闭指定的定时任务啊
@@ -16,3 +15,5 @@
 微信啊和ginvueadmin的交接
 还有goja编写js。
 
+微信机器人交互效果如图：
+<img width="511" alt="image" src="https://user-images.githubusercontent.com/73318286/177150218-e1431f55-c42b-4fc6-ba8a-68b30707a90a.png">

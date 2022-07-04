@@ -1,0 +1,17 @@
+wechatHttp:
+  #  请求api的验证
+  token: 121212112121212
+  port: 8888
+iHttp:
+  # post地址
+  url: http://192.168.1.51:8090
+  authorization: 0b4891edc500803721b76cf782200fd3
+  # 机器人ID
+  robotWxId: wxid_jak6f6ufgshl12
+  # 主人ID
+  masterWxId: wxid_xq2w7jl6cbi811
+redis:
+  host: localhost
+  port: 6379
+  pwd: 123456
+  db: 0

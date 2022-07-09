@@ -11,7 +11,6 @@ func init() {
 		order.RegStr = "^ping$"
 		order.RegBool = order.P.Event == ihttp.EventFriendMsg
 		order.Admin = true
-
 		order.DailyFunction(func() {
 			ihttp.PostIHttp(
 				ihttp.BuildSendTextMsgBody("pong[皱眉]", order.P.FromWxId))

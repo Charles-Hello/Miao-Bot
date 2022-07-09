@@ -3,6 +3,7 @@ package ihttp
 import (
 	"bytes"
 	"encoding/json"
+	"io"
 	"net/http"
 	"wechat_http/config"
 )
@@ -18,7 +19,7 @@ type LinkMsgBody struct {
 	IconUrl   string `json:"icon_url"`
 }
 
-func PostIHttp(body PostBody) {
+func PostIHttp(body PostBody[any]) {
 
 	body.RobotWxId = config.Config.IHttp.RobotWxId
 	bytesData, _ := json.Marshal(body)
@@ -33,12 +34,17 @@ func PostIHttp(body PostBody) {
 	}
 	//处理返回结果
 	response, _ := client.Do(req)
-	defer response.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+
+		}
+	}(response.Body)
 }
 
 // BuildSendTextMsgBody 构建发送普通文本消息
-func BuildSendTextMsgBody(msg, toWxId string) PostBody {
-	body := PostBody{
+func BuildSendTextMsgBody(msg, toWxId string) PostBody[any] {
+	body := PostBody[any]{
 		Event:  SendTextMsg,
 		ToWxId: toWxId,
 		Msg:    msg,
@@ -47,8 +53,8 @@ func BuildSendTextMsgBody(msg, toWxId string) PostBody {
 }
 
 // BuildSendGroupMsgAndAt 构建群聊消息并艾特
-func BuildSendGroupMsgAndAt(msg, fromWxId, finalFromWxId, finalFromName string) PostBody {
-	body := PostBody{
+func BuildSendGroupMsgAndAt(msg, fromWxId, finalFromWxId, finalFromName string) PostBody[any] {
+	body := PostBody[any]{
 		Event:         "SendGroupMsgAndAt",
 		ToWxId:        fromWxId,
 		Msg:           msg,
@@ -60,8 +66,8 @@ func BuildSendGroupMsgAndAt(msg, fromWxId, finalFromWxId, finalFromName string) 
 }
 
 // BuildAgreeFriendVerifyMsgBody 构建同意好友申请
-func BuildAgreeFriendVerifyMsgBody(msg, toWxId string) PostBody {
-	body := PostBody{
+func BuildAgreeFriendVerifyMsgBody(msg, toWxId string) PostBody[any] {
+	body := PostBody[any]{
 		Event:  AgreeFriendVerify,
 		Msg:    msg,
 		ToWxId: toWxId,
@@ -86,8 +92,8 @@ func BuildAgreeFriendVerifyMsgBody(msg, toWxId string) PostBody {
 //}
 
 // BuildSendCardMsg 发送名片
-func BuildSendCardMsg(cardWxId, toWxId string) PostBody {
-	body := PostBody{
+func BuildSendCardMsg(cardWxId, toWxId string) PostBody[any] {
+	body := PostBody[any]{
 		Event:  "SendCardMsg",
 		ToWxId: toWxId,
 		Msg:    cardWxId,
@@ -96,8 +102,8 @@ func BuildSendCardMsg(cardWxId, toWxId string) PostBody {
 }
 
 // BuildRevokeMsg 撤回消息
-func BuildRevokeMsg(msgId string) PostBody {
-	body := PostBody{
+func BuildRevokeMsg(msgId string) PostBody[any] {
+	body := PostBody[any]{
 		Event: RevokeMsg,
 		Msg:   msgId,
 	}
@@ -105,8 +111,8 @@ func BuildRevokeMsg(msgId string) PostBody {
 }
 
 // BuildInviteInGroup 构建邀请加群 groupId 群组id toWxId 被邀请人id
-func BuildInviteInGroup(groupId, toWxId string) PostBody {
-	body := PostBody{
+func BuildInviteInGroup(groupId, toWxId string) PostBody[any] {
+	body := PostBody[any]{
 		Event:     "InviteInGroup",
 		ToWxId:    toWxId,
 		GroupWxId: groupId,
@@ -115,8 +121,8 @@ func BuildInviteInGroup(groupId, toWxId string) PostBody {
 }
 
 // BuildGetWechatMoments 获取朋友圈
-func BuildGetWechatMoments(msg string) PostBody {
-	body := PostBody{
+func BuildGetWechatMoments(msg string) PostBody[any] {
+	body := PostBody[any]{
 		Event: "GetWechatMoments",
 		Msg:   msg,
 	}

@@ -10,9 +10,10 @@ import (
 	"strings"
 	"time"
 	"wechat_http/config"
+	"wechat_http/util"
 )
 
-type PostBody struct {
+type PostBody[T any] struct {
 	Event         string `json:"event"`
 	RobotWxId     string `json:"robot_wxid"`
 	RobotName     string `json:"robot_name"`
@@ -23,7 +24,7 @@ type PostBody struct {
 	FinalFromName string `json:"final_from_name"`
 	ToWxId        string `json:"to_wxid"`
 	MsgId         string `json:"msgid"`
-	Msg           string `json:"msg"`
+	Msg           any    `json:"msg"`
 	GroupWxId     string `json:"group_wxid"`
 }
 
@@ -34,14 +35,15 @@ type AddOrder struct {
 	RegBool bool   //这里需要匹配信息为true才判断执行，false
 	Name    string //这里是插件的名字
 	Admin   bool   //这里管理员才执行，false为所有人都执行
-	P       PostBody
+	P       PostBody[any]
 }
 
-var Ch = make(chan PostBody, 1)
+var Ch = make(chan PostBody[any], 1)
 var Con bool
 var AddReg []string
 
 func (bot AddOrder) DailyFunction(d func()) {
+	pMsg := util.StrVal(bot.P.Msg)
 	var msg string
 	msg = "插件名字:" + bot.Name
 	msg += "\nRegStr：" + bot.RegStr
@@ -49,24 +51,35 @@ func (bot AddOrder) DailyFunction(d func()) {
 	if strings.Contains(fmt.Sprintf("%v", bot.Cron), " *") {
 		bot.CronFunction(d) //去除这免得每次运行都判断一次。。
 	}
-	match, _ := regexp.MatchString(bot.RegStr, bot.P.Msg)
+	match, _ := regexp.MatchString(bot.RegStr, pMsg)
 	if match != true || bot.RegBool != true {
 		return
 	}
+
 	if bot.Admin == true {
 		if bot.P.FinalFromWxId != config.Config.IHttp.MasterWxId {
 			return
 		}
 	}
 	re := regexp.MustCompile(bot.RegStr)
-	matchArr := re.FindStringSubmatch(bot.P.Msg)
+	matchArr := re.FindStringSubmatch(pMsg)
 
 	for _, i := range matchArr[1:] {
 		AddReg = append(AddReg, i)
 	}
-	go bot.Method()
-	fmt.Println(msg)
-	AddReg = []string{}
+	go func() {
+		defer func() {
+			AddReg = []string{}
+		}()
+		bot.Method()
+	}()
+
+}
+
+var Cronfunmap map[string]*cron.Cron
+
+func init() {
+	Cronfunmap = make(map[string]*cron.Cron)
 }
 
 func (bot AddOrder) CronFunction(d func()) {
@@ -80,10 +93,13 @@ func (bot AddOrder) CronFunction(d func()) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	c.Start()
+	Cronfunmap[bot.Name] = c
+	for _, cron_Func := range Cronfunmap {
+		cron_Func.Start()
+	}
 }
 
-func (bot AddOrder) Await(sender chan PostBody, timeout time.Duration, fromWxid string) interface{} {
+func (bot AddOrder) Await(sender chan PostBody[any], timeout time.Duration, fromWxid string) interface{} {
 	<-Ch
 	Con = false
 	PostIHttp(
@@ -123,7 +139,6 @@ func (bot AddOrder) Await(sender chan PostBody, timeout time.Duration, fromWxid 
 			return nil
 		}
 	}
-
 }
 
 type PluginFunc func(AddOrder) interface{}

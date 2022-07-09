@@ -1,7 +1,6 @@
 package plugins
 
 import (
-	"fmt"
 	"strconv"
 	"wechat_http/config"
 	"wechat_http/ihttp"
@@ -29,10 +28,22 @@ func init() {
 		order.RegStr = "sad"
 		order.RegBool = true
 		order.Admin = true
-		fmt.Print("sad的测试")
 		order.DailyFunction(func() {
 			ihttp.PostIHttp(
 				ihttp.BuildSendTextMsgBody("我负责sad", order.P.FromWxId))
+		})
+		return ihttp.FuncFinish(order.Name, order.Cron)
+	})
+
+	ihttp.AddPlugin(func(order ihttp.AddOrder) interface{} {
+		order.Cron = ""
+		order.Name = "我是1"
+		order.RegStr = "1"
+		order.RegBool = true
+		order.Admin = true
+		order.DailyFunction(func() {
+			ihttp.PostIHttp(
+				ihttp.BuildSendTextMsgBody("我是1", order.P.FromWxId))
 		})
 		return ihttp.FuncFinish(order.Name, order.Cron)
 	})
@@ -48,16 +59,36 @@ func init() {
 	})
 
 	ihttp.AddPlugin(func(order ihttp.AddOrder) interface{} {
+		order.Cron = "*/1 * * * *"
+		order.Name = "我是第二个定时任务"
+		order.DailyFunction(func() {
+			ihttp.PostIHttp(
+				ihttp.BuildSendTextMsgBody("我是第二个定时任务", config.Config.MasterWxId))
+		})
+		return ihttp.FuncFinish(order.Name, order.Cron)
+	})
+
+	ihttp.AddPlugin(func(order ihttp.AddOrder) interface{} {
+		order.Cron = "*/1 * * * *"
+		order.Name = "我是第三个定时任务"
+		order.DailyFunction(func() {
+			ihttp.PostIHttp(
+				ihttp.BuildSendTextMsgBody("我是第三个定时任务", config.Config.MasterWxId))
+		})
+		return ihttp.FuncFinish(order.Name, order.Cron)
+	})
+
+	ihttp.AddPlugin(func(order ihttp.AddOrder) interface{} {
 		order.Cron = ""
 		order.Name = "指令"
-		order.RegStr = "指令"
+		order.RegStr = "测试指令"
 		order.RegBool = true
 		order.Admin = false
 		order.DailyFunction(func() {
 			switch order.Await(ihttp.Ch, 20, order.P.FromWxId) {
 			case "no":
 				ihttp.PostIHttp(
-					ihttp.BuildSendTextMsgBody("检测到你选择的是n，请输入「结束按钮」",
+					ihttp.BuildSendTextMsgBody("检测到你选择的是n，请输入「结束」",
 						order.P.FromWxId))
 				switch order.Await(ihttp.Ch, 20, order.P.FromWxId) {
 				case "结束":

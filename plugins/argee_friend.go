@@ -2,6 +2,7 @@ package plugins
 
 import (
 	"wechat_http/ihttp"
+	"wechat_http/util"
 )
 
 func init() {
@@ -14,7 +15,8 @@ func init() {
 		//这里我们要正则干嘛？
 		order.DailyFunction(func() {
 			// 同意好友请求
-			ihttp.PostIHttp(ihttp.BuildAgreeFriendVerifyMsgBody(order.P.Msg, order.P.ToWxId))
+			pMsg := util.StrVal(order.P.Msg)
+			ihttp.PostIHttp(ihttp.BuildAgreeFriendVerifyMsgBody(pMsg, order.P.ToWxId))
 			// 发送消息
 			ihttp.PostIHttp(
 				ihttp.BuildSendTextMsgBody("Hello < "+order.P.FromName+" >, 稳我有事吗？!",

@@ -16,10 +16,15 @@ func init() {
 			for j, i := range ihttp.PluginNameList {
 				if i == ihttp.AddReg[0] {
 					ihttp.PluginQueue = append(ihttp.PluginQueue, ihttp.PluginList[j])
-					//ihttp.PluginQueue = append(ihttp.PluginQueue[:j], append([]ihttp.PluginFunc{ihttp.PluginList[j-1]}, ihttp.PluginQueue[j:]...)...)
-					//fmt.Println(ihttp.PluginQueue)
 					ihttp.PostIHttp(
 						ihttp.BuildSendTextMsgBody(ihttp.AddReg[0]+"插件已被激活", order.P.FromWxId))
+				}
+			}
+			for cronName, cron_Func := range ihttp.Cronfunmap {
+				if ihttp.AddReg[0] == cronName {
+					cron_Func.Start()
+					ihttp.PostIHttp(
+						ihttp.BuildSendTextMsgBody(cronName+"插件已被激活", order.P.FromWxId))
 				}
 			}
 		})
@@ -36,6 +41,10 @@ func init() {
 			msg = "当前加载全部插件：\n"
 			for _, i := range ihttp.PluginNameList {
 				msg += i + "\n"
+			}
+			for cronName := range ihttp.Cronfunmap {
+				fmt.Println(cronName)
+				msg += "『定时』" + cronName + "\n"
 			}
 			ihttp.PostIHttp(
 				ihttp.BuildSendTextMsgBody(msg, order.P.FromWxId))
@@ -54,7 +63,13 @@ func init() {
 					ihttp.PluginQueue = ihttp.RemoveParam(ihttp.PluginQueue, ihttp.PluginList[j])
 					ihttp.PostIHttp(
 						ihttp.BuildSendTextMsgBody(ihttp.AddReg[0]+"插件已关闭", order.P.FromWxId))
-					fmt.Println(j)
+				}
+			}
+			for cronName, cron_Func := range ihttp.Cronfunmap {
+				if ihttp.AddReg[0] == cronName {
+					cron_Func.Stop()
+					ihttp.PostIHttp(
+						ihttp.BuildSendTextMsgBody(cronName+"插件已关闭", order.P.FromWxId))
 				}
 			}
 		})

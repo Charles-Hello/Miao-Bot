@@ -1,26 +1,47 @@
-# Miao-Bot
+<p align="center">
+<a href="https://typora.io/"><img src="md_images/logo.png" alt="image-20210710130755511" width="150" /></a>
+</p>
+<div>
+<img src="https://img.shields.io/badge/golang-1.16-blue" alt=""/>
+<img src="https://img.shields.io/badge/gin-1.7.0-lightBlue" alt=""/>
+<img src="https://img.shields.io/badge/vue-3.2.25-brightgreen" alt=""/>
+<img src="https://img.shields.io/badge/element--plus-2.0.1-green" alt=""/>
+<img src="https://img.shields.io/badge/gorm-1.22.5-red" alt=""/>
+</div>
 
-一个想用go来玩bot的辣鸡选手<br>
+# <center> Miao_Bot
+
+一个想用go来玩插件bot的辣鸡选手<br>
 这个文件夹gin-vue-admin-main是以后bot的前端框架，我还没想好咋写。<br>
+前端基于[gin-vue-admin](https://github.com/flipped-aurora/gin-vue-admin)  想部署前端的点击link部署即可。
 
-> https://github.com/flipped-aurora/gin-vue-admin  想部署前端的看这个link部署即可。
+- ### 目前已实现的功能：<br>
+    - [x] 用go微信机器人http交互 <br>
+    - [x] 对话式交流<br>
+    - [x] 指定任务开关 <br>
+    - [x] 正则判断，是否管理员，判断条件，以最快速编写的一个小go插件脚本。<br>
 
-目前已实现的功能：<br>
-支持微信机器人http交互 <br>
-支持对话式交流<br>
-支持指定普通任务开关 <br>
-支持正则，管理员，判断，快速编写的一个小go插件脚本。<br>
+- ### 未来实现的功能：（计划周期：**~~半年完成~~**）<br>
+    - [ ] 对接telegram的client和bot<br>
+    - [ ]  对接qq<br>
+    - [ ]  微信与ginvueadmin前端交接<br>
+    - [ ] 还有goja编写js<br>
 
-目前未实现的功能（未来计划：**~~目标：半年完成~~**）<br>
-比如关闭指定的定时任务<br>
-对接telegram的client和bot<br>
-对接qq<br>
-微信与ginvueadmin前端交接<br>
-还有goja编写js<br>
+### 微信机器人交互如下图所示👇🏻：<br><br>
 
-微信机器人交互效果如图：<br><br>
 <img width="200" alt="image" src="https://user-images.githubusercontent.com/73318286/177150218-e1431f55-c42b-4fc6-ba8a-68b30707a90a.png"><br>
+<br>
 
-一起学习合作交流加<br>
-v: a1140601003<br>
-tg：@Hss114060
+### 编写go插件如图👇🏻：<br><br>
+
+<img width="200" alt="image" src="md_images/插件编写.png"><br>
+<br>
+
+#### 一起学习合作交流加👇🏻<br>
+
+微信wechat: a1140601003<br>
+电报tg：@Hss114060
+
+#### 请我喝奶茶呗🧋<br>
+
+<img width="200" alt="image" src="md_images/打赏码.png">

@@ -2,6 +2,7 @@ package plugins
 
 import (
 	"wechat_http/ihttp"
+	"wechat_http/util"
 )
 
 func init() {
@@ -28,6 +29,32 @@ func init() {
 			ihttp.PostIHttp(
 				ihttp.BuildSendTextMsgBody(order.P.FromWxId, order.P.FromWxId))
 		})
+		return ihttp.FuncFinish(order.Name, order.Cron)
+	})
+
+	ihttp.AddPlugin(func(order ihttp.AddOrder) interface{} {
+		order.Cron = ""
+		order.Name = "系统状态"
+		order.RegStr = "系统状态"
+		order.Admin = true
+		order.RegBool = true
+		order.DailyFunction(func() {
+			ihttp.PostIHttp(ihttp.BuildSendTextMsgBody("\n"+util.GetServerInfo(), order.P.FromWxId))
+		})
+		return ihttp.FuncFinish(order.Name, order.Cron)
+	})
+
+	ihttp.AddPlugin(func(order ihttp.AddOrder) interface{} {
+		order.Cron = ""
+		order.Name = "部署github"
+		order.RegStr = "部署地址"
+		order.Admin = true
+		order.RegBool = true
+		order.DailyFunction(func() {
+			ihttp.PostIHttp(ihttp.BuildSendLinkMsg("github.com", "我的网站", "https://github.com/Charles-Hello/Miao-Bot",
+				"https://cdn.wxy97.com/public/avatar.jpg", "https://cdn.wxy97.com/public/avatar.jpg", order.P.FromWxId))
+		})
+
 		return ihttp.FuncFinish(order.Name, order.Cron)
 	})
 

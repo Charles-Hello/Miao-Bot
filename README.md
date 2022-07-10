@@ -13,7 +13,6 @@
 </div>
 
 
-
 一个想用go来玩插件bot的辣鸡选手<br>
 这个文件夹gin-vue-admin-main是以后bot的前端框架，我还没想好咋写。<br>
 前端基于[gin-vue-admin](https://github.com/flipped-aurora/gin-vue-admin)  想部署前端的点击link部署即可。

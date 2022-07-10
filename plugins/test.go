@@ -37,8 +37,8 @@ func init() {
 
 	ihttp.AddPlugin(func(order ihttp.AddOrder) interface{} {
 		order.Cron = ""
-		order.Name = "我是1"
-		order.RegStr = "1"
+		order.Name = "我是2"
+		order.RegStr = "2"
 		order.RegBool = true
 		order.Admin = true
 		order.DailyFunction(func() {

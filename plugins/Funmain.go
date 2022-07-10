@@ -65,9 +65,9 @@ func init() {
 						ihttp.BuildSendTextMsgBody(ihttp.AddReg[0]+"插件已关闭", order.P.FromWxId))
 				}
 			}
-			for cronName, cron_Func := range ihttp.Cronfunmap {
+			for cronName, cronFunc := range ihttp.Cronfunmap {
 				if ihttp.AddReg[0] == cronName {
-					cron_Func.Stop()
+					cronFunc.Stop()
 					ihttp.PostIHttp(
 						ihttp.BuildSendTextMsgBody(cronName+"插件已关闭", order.P.FromWxId))
 				}

@@ -3,7 +3,6 @@ package ihttp
 import (
 	"bytes"
 	"encoding/json"
-	"io"
 	"net/http"
 	"wechat_http/config"
 )
@@ -34,12 +33,7 @@ func PostIHttp(body PostBody[any]) {
 	}
 	//处理返回结果
 	response, _ := client.Do(req)
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-
-		}
-	}(response.Body)
+	defer response.Body.Close()
 }
 
 // BuildSendTextMsgBody 构建发送普通文本消息
@@ -75,21 +69,21 @@ func BuildAgreeFriendVerifyMsgBody(msg, toWxId string) PostBody[any] {
 	return body
 }
 
-//// BuildSendLinkMsg 构建 发送 卡片链接消息
-//func BuildSendLinkMsg(title, text, targetUrl, picUrl, IconUrl, toWxId string) PostBody {
-//	body := PostBody{
-//		Event:  "SendLinkMsg",
-//		ToWxId: toWxId,
-//		Msg: LinkMsgBody{
-//			Title:     title,
-//			Text:      text,
-//			TargetUrl: targetUrl,
-//			PicUrl:    picUrl,
-//			IconUrl:   IconUrl,
-//		},
-//	}
-//	return body
-//}
+// BuildSendLinkMsg 构建 发送 卡片链接消息
+func BuildSendLinkMsg(title, text, targetUrl, picUrl, IconUrl, toWxId string) PostBody[any] {
+	body := PostBody[any]{
+		Event:  "SendLinkMsg",
+		ToWxId: toWxId,
+		Msg: LinkMsgBody{
+			Title:     title,
+			Text:      text,
+			TargetUrl: targetUrl,
+			PicUrl:    picUrl,
+			IconUrl:   IconUrl,
+		},
+	}
+	return body
+}
 
 // BuildSendCardMsg 发送名片
 func BuildSendCardMsg(cardWxId, toWxId string) PostBody[any] {

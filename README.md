@@ -68,6 +68,14 @@
 1. 发送"**鸡你太美**"给机器人。
 2. 如果机器人给你反应就部署成功了。
 
+## 第四步：部署tg监控
+
+[申请tg的api和hash](https://my.telegram.org/)
+
+1. 填写telegram_bot中的config.py文件
+2. python3 telegram_bot/main.py
+   ![img](md_images/申请tg_api.png)
+
 ### 一起学习合作交流加👇🏻<br>
 
 #### 微信wechat: a1140601003<br>

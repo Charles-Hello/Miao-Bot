@@ -22,9 +22,11 @@ type WechatHttp struct {
 
 type IHttp struct {
 	URL           string `yaml:"url"`
-	RobotWxId     string `yaml:"robotWxId"`
-	MasterWxId    string `yaml:"masterWxId"`
+	Wx_RobotWxId  string `yaml:"wx_robotwxid"`
+	Wx_MasterWxId string `yaml:"wx_masterwxid"`
 	Authorization string `yaml:"authorization"`
+	Tg_MasterWxId string `yaml:"tg_masterwxid"`
+	Tg_RobotWxId  string `yaml:"tg_robotwxid"`
 }
 
 type Redis struct {
@@ -38,6 +40,7 @@ func InitConf() {
 	//获取项目的执行路径
 	path, err := os.Getwd()
 	if err != nil {
+		fmt.Println(err)
 		panic(err)
 	}
 	config := viper.New()

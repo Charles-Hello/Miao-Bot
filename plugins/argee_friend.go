@@ -6,22 +6,22 @@ import (
 )
 
 func init() {
-	ihttp.AddPlugin(func(order ihttp.AddOrder) interface{} {
-		order.Cron = ""
-		order.Name = "同意朋友"
-		order.RegStr = ""
-		order.RegBool = order.P.Event == ihttp.EventFriendVerify
-		order.Admin = true
+	ihttp.AddPlugin(func(configs ihttp.AddOrder) interface{} {
+		configs.Cron = ""
+		configs.Name = "同意朋友"
+		configs.RegStr = ""
+		configs.RegBool = configs.P.WxEvent == ihttp.EventFriendVerify
+		configs.Admin = true
 		//这里我们要正则干嘛？
-		order.DailyFunction(func() {
+		configs.DailyFunction(func() {
 			// 同意好友请求
-			pMsg := util.StrVal(order.P.Msg)
-			ihttp.PostIHttp(ihttp.BuildAgreeFriendVerifyMsgBody(pMsg, order.P.ToWxId))
+			pMsg := util.StrVal(configs.P.WxMsg)
+			ihttp.PostIHttp(ihttp.BuildAgreeFriendVerifyMsgBody(pMsg, configs.P.WxToWxId))
 			// 发送消息
 			ihttp.PostIHttp(
-				ihttp.BuildSendTextMsgBody("Hello < "+order.P.FromName+" >, 稳我有事吗？!",
-					order.P.FromWxId))
+				ihttp.BuildSendTextMsgBody("Hello < "+configs.P.WxFromName+" >, 稳我有事吗？!",
+					configs.P.WxFromWxId))
 		})
-		return ihttp.FuncFinish(order.Name, order.Cron)
+		return ihttp.FuncFinish(configs.Name, configs.Cron)
 	})
 }

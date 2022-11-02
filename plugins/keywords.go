@@ -2,72 +2,71 @@ package plugins
 
 import (
 	"wechat_http/ihttp"
-	"wechat_http/util"
 )
 
 func init() {
-	ihttp.AddPlugin(func(order ihttp.AddOrder) interface{} {
-		order.Cron = "" // 如果不需要定时任务(DailyFunction)，则不需要设置,在DailyFunction中设置
-		order.Name = "ping"
-		order.RegStr = "^ping$"
-		order.RegBool = order.P.Event == ihttp.EventFriendMsg
-		order.Admin = true
-		order.DailyFunction(func() {
+	ihttp.AddPlugin(func(configs ihttp.AddOrder) interface{} {
+		configs.Cron = "" // 如果不需要定时任务(DailyFunction)，则不需要设置,在DailyFunction中设置
+		configs.Name = "ping"
+		configs.RegStr = "^ping$"
+		configs.RegBool = configs.P.WxEvent == ihttp.EventFriendMsg
+		configs.Admin = true
+		configs.DailyFunction(func() {
 			ihttp.PostIHttp(
-				ihttp.BuildSendTextMsgBody("pong[皱眉]", order.P.FromWxId))
+				ihttp.BuildSendTextMsgBody("pong[皱眉]", configs.P.WxFromWxId))
 		})
-		return ihttp.FuncFinish(order.Name, order.Cron)
+		return ihttp.FuncFinish(configs.Name, configs.Cron)
 	})
 
-	ihttp.AddPlugin(func(order ihttp.AddOrder) interface{} {
-		order.Cron = ""
-		order.Name = "id"
-		order.RegStr = "^id$"
-		order.Admin = true
-		order.RegBool = true
-		order.DailyFunction(func() {
+	ihttp.AddPlugin(func(configs ihttp.AddOrder) interface{} {
+		configs.Cron = ""
+		configs.Name = "id"
+		configs.RegStr = "^id$"
+		configs.Admin = true
+		configs.RegBool = true
+		configs.DailyFunction(func() {
 			ihttp.PostIHttp(
-				ihttp.BuildSendTextMsgBody(order.P.FromWxId, order.P.FromWxId))
+				ihttp.BuildSendTextMsgBody(configs.P.WxFromWxId, configs.P.WxFromWxId))
 		})
-		return ihttp.FuncFinish(order.Name, order.Cron)
+		return ihttp.FuncFinish(configs.Name, configs.Cron)
 	})
 
-	ihttp.AddPlugin(func(order ihttp.AddOrder) interface{} {
-		order.Cron = ""
-		order.Name = "系统状态"
-		order.RegStr = "系统状态"
-		order.Admin = true
-		order.RegBool = true
-		order.DailyFunction(func() {
-			ihttp.PostIHttp(ihttp.BuildSendTextMsgBody("\n"+util.GetServerInfo(), order.P.FromWxId))
+	ihttp.AddPlugin(func(configs ihttp.AddOrder) interface{} {
+		configs.Cron = ""
+		configs.Name = "系统状态"
+		configs.RegStr = "系统状态"
+		configs.Admin = true
+		configs.RegBool = true
+		configs.DailyFunction(func() {
+			ihttp.PostIHttp(ihttp.BuildSendTextMsgBody("还没写完", configs.P.WxFromWxId))
 		})
-		return ihttp.FuncFinish(order.Name, order.Cron)
+		return ihttp.FuncFinish(configs.Name, configs.Cron)
 	})
 
-	ihttp.AddPlugin(func(order ihttp.AddOrder) interface{} {
-		order.Cron = ""
-		order.Name = "部署github"
-		order.RegStr = "部署地址"
-		order.Admin = true
-		order.RegBool = true
-		order.DailyFunction(func() {
+	ihttp.AddPlugin(func(configs ihttp.AddOrder) interface{} {
+		configs.Cron = ""
+		configs.Name = "部署github"
+		configs.RegStr = "部署地址"
+		configs.Admin = true
+		configs.RegBool = true
+		configs.DailyFunction(func() {
 			ihttp.PostIHttp(ihttp.BuildSendLinkMsg("github.com", "我的网站", "https://github.com/Charles-Hello/Miao-Bot",
-				"https://cdn.wxy97.com/public/avatar.jpg", "https://cdn.wxy97.com/public/avatar.jpg", order.P.FromWxId))
+				"https://cdn.wxy97.com/public/avatar.jpg", "https://cdn.wxy97.com/public/avatar.jpg", configs.P.WxFromWxId))
 		})
 
-		return ihttp.FuncFinish(order.Name, order.Cron)
+		return ihttp.FuncFinish(configs.Name, configs.Cron)
 	})
 
 	//if msg == "主人" {
 	//	ihttp.PostIHttp(
-	//		ihttp.BuildSendCardMsg(config.Config.IHttp.MasterWxId, msgBody.FromWxId))
+	//		ihttp.BuildSendCardMsg(config.Config.IHttp.Wx_MasterWxId, msgBody.FromWxId))
 	//}
 	//if msg == "公众号" {
 	//	ihttp.PostIHttp(
 	//		ihttp.BuildSendCardMsg("gh_11e200c41d89", msgBody.FromWxId))
 	//}
 	//
-	//if msgBody.FromWxId == config.Config.IHttp.MasterWxId {
+	//if msgBody.FromWxId == config.Config.IHttp.Wx_MasterWxId {
 	//	// 主人指令
 	//	masterCommand(false, msg, msgBody.FromWxId, msgBody.FinalFromWxId, msgBody.FinalFromName)
 	//}

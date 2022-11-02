@@ -14,21 +14,21 @@ const (
 	EventFriendVerify = "EventFriendVerify"
 	// AgreeFriendVerify 同意好友申请
 	AgreeFriendVerify = "AgreeFriendVerify"
-	// SendTextMsg 发送文本消息 robotWxId toWxId(群/好友) msg
+	// SendTextMsg 发送文本消息 Wx_RobotWxId toWxId(群/好友) msg
 	SendTextMsg = "SendTextMsg"
-	// SendImageMsg 发送图片消息 robotWxId toWxId(群/好友) msg(name[md5值或其他唯一的名字，包含扩展名例如1.jpg], url)
+	// SendImageMsg 发送图片消息 Wx_RobotWxId toWxId(群/好友) msg(name[md5值或其他唯一的名字，包含扩展名例如1.jpg], url)
 	SendImageMsg = "SendImageMsg"
-	// SendLinkMsg 发送分享链接 robotWxId, toWxId(群/好友), msg(title, text, target_url, pic_url, icon_url)
+	// SendLinkMsg 发送分享链接 Wx_RobotWxId, toWxId(群/好友), msg(title, text, target_url, pic_url, icon_url)
 	SendLinkMsg = "SendLinkMsg"
-	// SendCardMsg 发送名片 robotWxId, toWxId(群/好友), msg(你要发的那个名片的 wxid)
+	// SendCardMsg 发送名片 Wx_RobotWxId, toWxId(群/好友), msg(你要发的那个名片的 wxid)
 	SendCardMsg = "SendCardMsg"
-	// RevokeMsg 撤回消息API (robotWxId, msg)
+	// RevokeMsg 撤回消息API (Wx_RobotWxId, msg)
 	RevokeMsg = "RevokeMsg"
-	// GetWechatMoments 获取朋友圈(robotWxId, msg)
+	// GetWechatMoments 获取朋友圈(Wx_RobotWxId, msg)
 	GetWechatMoments = "GetWechatMoments"
-	// ReplyWechatMoments 评论朋友圈(robotWxId, msg[moments_id,content])
+	// ReplyWechatMoments 评论朋友圈(Wx_RobotWxId, msg[moments_id,content])
 	ReplyWechatMoments = "ReplyWechatMoments"
-	// SendDiyMusicMsg 发送自定义音乐 (robotWxId, toWxId,msg[name, singer, home, url, type])
+	// SendDiyMusicMsg 发送自定义音乐 (Wx_RobotWxId, toWxId,msg[name, singer, home, url, type])
 	SendDiyMusicMsg = "SendDiyMusicMsg"
 )
 

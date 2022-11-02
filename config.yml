@@ -1,15 +1,20 @@
 wechatHttp:
-  #  请求api的验证
+  #  请求api的验证，忽略token，port的话，就是服务端的开启的端口，忽略token
   token: 121212112121212
   port: 8888
 iHttp:
-  # post地址
-  url: http://192.168.1.51:8090
+  # post地址 (发送到windows的可爱猫的ip+端口，忽略authorization)
+  url: http://192.168.1.51:8080
   authorization: 0b4891edc500803721b76cf782200fd3
-  # 机器人ID
-  robotWxId: wxid_jak6f6ufgshl12
+  #   机器人ID
+  #wx_robotwxid这个是微信机器人的wxid（从可爱猫.exe的日记中获取wxid），tg的教程后续再写
+  wx_robotwxid: wxid_jak6f6ufgshl12
+  tg_robotwxid: 1768732953
+
   # 主人ID
-  masterWxId: wxid_xq2w7jl6cbi811
+  #wx_robotwxid这个是微信主任的wxid（从可爱猫.exe的日记中获取wxid），tg的教程后续再写
+  wx_masterwxid: wxid_xq2w7jl6cbi811
+  tg_masterwxid: 1123322058
 redis:
   host: localhost
   port: 6379

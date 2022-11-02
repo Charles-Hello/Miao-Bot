@@ -9,23 +9,32 @@ import (
 	"runtime"
 	"strings"
 	"time"
-	"wechat_http/config"
 	"wechat_http/util"
 )
 
 type PostBody[T any] struct {
-	Event         string `json:"event"`
-	RobotWxId     string `json:"robot_wxid"`
-	RobotName     string `json:"robot_name"`
-	Type          int    `json:"type"`
-	FromWxId      string `json:"from_wxid"`
-	FromName      string `json:"from_name"`
-	FinalFromWxId string `json:"final_from_wxid"`
-	FinalFromName string `json:"final_from_name"`
-	ToWxId        string `json:"to_wxid"`
-	MsgId         string `json:"msgid"`
-	Msg           any    `json:"msg"`
-	GroupWxId     string `json:"group_wxid"`
+	WxEvent         string `json:"event"`
+	WxWx_RobotWxId  string `json:"robot_wxid"`
+	WxRobotName     string `json:"robot_name"`
+	WxType          int    `json:"type"`
+	WxFromWxId      string `json:"from_wxid"`
+	WxFromName      string `json:"from_name"`
+	WxFinalFromWxId string `json:"final_from_wxid"`
+	WxFinalFromName string `json:"final_from_name"`
+	WxToWxId        string `json:"to_wxid"`
+	WxMsgId         string `json:"msgid"`
+	WxMsg           any    `json:"msg"`
+	WxGroupWxId     string `json:"group_wxid"`
+
+	Tgmsg_from_id  any `json:"Tg_msg_from_id"`
+	Tgchanelname   any `json:"Tg_chanel_name"`
+	TgMsg          any `json:"Tg_msg"`
+	TgIfBot        any `json:"Tg_ifbot"`
+	TgGroup        any `json:"Tg_ifgroup"`
+	TgChanel       any `json:"Tg_ifchanel"`
+	TgMsgfirstname any `json:"Tg_first_name"`
+	TgmsgleastName any `json:"Tg_least_name"`
+	TgUsername     any `json:"Tg_username"` //这里拿到tg传过来的信息，需要处理。
 }
 
 type AddOrder struct {
@@ -41,13 +50,27 @@ type AddOrder struct {
 var Ch = make(chan PostBody[any], 1)
 var Con bool
 var AddReg []string
+var OtMsg any
+var OtmsgMasters string
+var FromMsg any
 
 func (bot AddOrder) DailyFunction(d func()) {
-	pMsg := util.StrVal(bot.P.Msg)
+
+	if bot.P.WxMsg != "" {
+		OtMsg = bot.P.WxMsg
+		OtmsgMasters = "config.Config.IHttp.Wx_MasterWxId"
+		FromMsg = bot.P.WxFinalFromWxId
+	} else {
+		OtMsg = bot.P.TgMsg
+		OtmsgMasters = "config.Config.IHttp.Tg_MasterWxId"
+		FromMsg = bot.P.Tgmsg_from_id
+	}
+	pMsg := util.StrVal(OtMsg) //判断哪个不为空则执行哪个。当微信信息为null，telegram不为空
 	var msg string
 	msg = "插件名字:" + bot.Name
 	msg += "\nRegStr：" + bot.RegStr
 	bot.Method = d
+
 	if strings.Contains(fmt.Sprintf("%v", bot.Cron), " *") {
 		bot.CronFunction(d) //去除这免得每次运行都判断一次。。
 	}
@@ -57,7 +80,7 @@ func (bot AddOrder) DailyFunction(d func()) {
 	}
 
 	if bot.Admin == true {
-		if bot.P.FinalFromWxId != config.Config.IHttp.MasterWxId {
+		if FromMsg != OtmsgMasters {
 			return
 		}
 	}
@@ -103,22 +126,22 @@ func (bot AddOrder) Await(sender chan PostBody[any], timeout time.Duration, from
 	<-Ch
 	Con = false
 	PostIHttp(
-		BuildSendTextMsgBody("给你"+timeout.String()+"秒的时间来回复", bot.P.FromWxId))
+		BuildSendTextMsgBody("给你"+timeout.String()+"秒的时间来回复", bot.P.WxFromWxId))
 	for {
 		select {
 		case message := <-sender:
-			if fromWxid == message.FromWxId {
+			if fromWxid == message.WxFromWxId {
 				//if isDigit(message.Msg) {
 				//	return message.Msg
-				if message.Msg == "结束" {
+				if message.WxMsg == "结束" {
 					fmt.Println("结束")
 					sender <- message
 					return "结束"
-				} else if message.Msg == "y" || message.Msg == "Y" {
+				} else if message.WxMsg == "y" || message.WxMsg == "Y" {
 					fmt.Println("yes")
 					sender <- message
 					return "yes"
-				} else if message.Msg == "n" || message.Msg == "N" {
+				} else if message.WxMsg == "n" || message.WxMsg == "N" {
 					fmt.Println("no")
 					sender <- message
 					return "no"
@@ -126,7 +149,7 @@ func (bot AddOrder) Await(sender chan PostBody[any], timeout time.Duration, from
 					sender <- message
 					//fmt.Println(message.Msg)
 					PostIHttp(
-						BuildSendTextMsgBody("输入错误！", bot.P.FromWxId))
+						BuildSendTextMsgBody("输入错误！", bot.P.WxFromWxId))
 				}
 			} else {
 				sender <- message
@@ -135,7 +158,7 @@ func (bot AddOrder) Await(sender chan PostBody[any], timeout time.Duration, from
 		case <-time.After(time.Second * timeout):
 			PostIHttp(
 				BuildSendTextMsgBody(timeout.String()+"秒没有收到消息，正在为你结束对话\n",
-					bot.P.FromWxId))
+					bot.P.WxFromWxId))
 			return nil
 		}
 	}

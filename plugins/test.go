@@ -27,11 +27,16 @@ func init() {
 		configs.Cron = ""
 		configs.Name = "鸡你太美"
 		configs.RegStr = "鸡你太美"
-		configs.Admin = true
+		configs.Admin = false
 		configs.RegBool = true
 		configs.DailyFunction(func() {
-			ihttp.PostIHttp(
-				ihttp.BuildSendTextMsgBody("好兄弟", configs.P.WxFromWxId))
+			telegram_bot.Return.OpSlice = append(telegram_bot.Return.OpSlice, "send好兄弟")
+			telegram_bot.Return.OpSlice = append(telegram_bot.Return.OpSlice, "sleep")
+			telegram_bot.Return.OpSlice = append(telegram_bot.Return.OpSlice, "edit好兄弟")
+			telegram_bot.Return.OpSlice = append(telegram_bot.Return.OpSlice, "sleep")
+			telegram_bot.Return.OpSlice = append(telegram_bot.Return.OpSlice, "reply好兄弟")
+			telegram_bot.Return.OpSlice = append(telegram_bot.Return.OpSlice, "sleep")
+			telegram_bot.Return.OpSlice = append(telegram_bot.Return.OpSlice, "delete")
 		})
 		return ihttp.FuncFinish(configs.Name, configs.Cron)
 	})

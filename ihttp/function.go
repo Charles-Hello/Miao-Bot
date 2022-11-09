@@ -55,14 +55,13 @@ var OtmsgMasters string
 var FromMsg any
 
 func (bot AddOrder) DailyFunction(d func()) {
-
-	if bot.P.WxMsg != "" {
+	if bot.P.WxMsg != nil {
 		OtMsg = bot.P.WxMsg
-		OtmsgMasters = "config.Config.IHttp.Wx_MasterWxId"
+		OtmsgMasters = "wxid_xq2w7jl6cbi811"
 		FromMsg = bot.P.WxFinalFromWxId
 	} else {
 		OtMsg = bot.P.TgMsg
-		OtmsgMasters = "config.Config.IHttp.Tg_MasterWxId"
+		OtmsgMasters = "1123322058"
 		FromMsg = bot.P.Tgmsg_from_id
 	}
 	pMsg := util.StrVal(OtMsg) //判断哪个不为空则执行哪个。当微信信息为null，telegram不为空

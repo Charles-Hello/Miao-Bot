@@ -36,6 +36,15 @@
 <img width="400" alt="image" src="https://user-images.githubusercontent.com/73318286/177150218-e1431f55-c42b-4fc6-ba8a-68b30707a90a.png"><br>
 <br>
 
+### 电报人形延时如下图所示👇🏻：<br><br>
+
+![img](md_images/telegram交互.png)<br><br>
+
+### 电报相关代码编写如下图所示👇🏻(交接的是：telegram_bot/main.py文件)：<br><br>
+
+![img](md_images/telegram交互2.png)<br>
+<br>
+
 ### 编写go插件如图👇🏻：<br><br>
 
 <img width="500" alt="image" src="md_images/插件编写.png"><br>
@@ -47,7 +56,7 @@
 
 **背景：假设服务端为ip：192.168.1.145，启动端口：8888**
 
-1. 解压本文件夹里面的**可爱猫5.2.7.zip**
+1. 解压微信和可爱猫里面的**可爱猫5.2.7.zip**
 
 - 点击对应微信版本安装包进行安装。
 

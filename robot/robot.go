@@ -13,7 +13,8 @@ import (
 )
 
 func Robot(c *gin.Context) {
-
+	//每次执行都要把telegram_bot.Return给重置了
+	telegram_bot.Return.OpSlice = nil
 	defaults.SetDefaults(telegram_bot.Return)
 
 	var AddOrder ihttp.AddOrder
@@ -35,9 +36,6 @@ func Robot(c *gin.Context) {
 	after := time.Now().UnixNano()
 	cost := after - now
 	fmt.Println("golang消耗时间=[", cost, "]纳秒")
-
-	//ret_json, _ := json.Marshal(telegram_bot.Return)
-	//fmt.Print(string(ret_json))
 
 	//用变量来接收
 	data := gin.H{"Response": telegram_bot.Return}

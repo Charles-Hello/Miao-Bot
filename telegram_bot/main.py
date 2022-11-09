@@ -12,10 +12,10 @@ client = TelegramClient("user", config.App_api_id, config.App_api_hash,
                         connection_retries=None).start()
 
 
-@client.on(events.NewMessage)
+@client.on(events.NewMessage(chats=1716089227))
 async def check_id(event):
     sender = await event.get_sender()
-    message = await client.get_messages(sender.id, ids=event.message.id)
+    # message = await client.get_messages(sender.id, ids=event.message.id)
     sender = await event.get_sender()
     # print("当前聊天的id：" + str(event.chat_id))  # chat_id是int类型
     # print("发送信息：" + event.raw_text)
@@ -34,8 +34,8 @@ async def check_id(event):
     if str(event.is_channel) != "True":
         phone = re.findall('phone=(.*)', str(sender))[0].split(", ")[0]
 
-    if 'title' in str(message):
-        chanel_name = re.findall('title=(.*)', str(sender))[0].split(", ")[0]
+    # if 'title' in str(message):
+    #     chanel_name = re.findall('title=(.*)', str(sender))[0].split(", ")[0]
 
     username = re.findall('username=(.*)', str(sender))[0].split(", ")[0]
     try:
@@ -63,25 +63,28 @@ async def check_id(event):
         'Tg_username': username,
         'Tg_chanel_name': str(chanel_name),
     }
-    print(data)
     json_str = json.dumps(data)
-
     response = requests.post(url=config.API_URL, data=json_str)
-    print(response.text)
     Gin_data = json.loads(response.text)
-
-    # # 需要上游服务器返回的json来进一步做判断
-    # if Gin_data['Tg_msg'] == 'delete':
-    #     await event.delete()
-    #     await client.send_message(event.chat_id, '我已经被删除')
-    # if Gin_data['Tg_msg'] == 'edit':
-    #     dictionary = {'edit_message': '我已被编辑'}
-    #     await event.edit(dictionary['edit_message'])
-    # if Gin_data['Tg_msg'] == 'reply':
-    #     dictionary = {'reply': '我已经被回复'}
-    #     await event.reply(dictionary['reply'])
-    # if Gin_data['Tg_msg'] == '回复':
-    #     await client.send_message(event.chat_id, '我在回复你呢')
+    OpSlice_list = Gin_data['Response']['OpSlice']
+    print(OpSlice_list)
+    if OpSlice_list:
+        for i in OpSlice_list:
+            if 'delete' in i:
+                await event.delete()
+                await client.send_message(event.chat_id, '我已经被删除')
+            elif 'edit' in i:
+                edit_message = re.findall('edit(.*)', i)[0]
+                await event.edit(edit_message)
+            elif 'reply' in i:
+                reply_message = re.findall('reply(.*)', i)[0]
+                await event.reply(reply_message)
+            elif 'send' in i:
+                send_message = re.findall('send(.*)', i)[0]
+                print(send_message)
+                await client.send_message(event.chat_id, send_message)
+            elif 'sleep' in i:
+                await asyncio.sleep(1.5)
 
 
 if __name__ == '__main__':

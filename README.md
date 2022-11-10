@@ -45,10 +45,6 @@
 ![img](md_images/telegram交互2.png)<br>
 <br>
 
-### 编写go插件如图👇🏻：<br><br>
-
-<img width="500" alt="image" src="md_images/插件编写.png"><br>
-<br>
 
 ## 如何使用和部署机器人👇🏻：
 

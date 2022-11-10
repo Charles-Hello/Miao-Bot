@@ -81,10 +81,10 @@ async def check_id(event):
                 await event.reply(reply_message)
             elif 'send' in i:
                 send_message = re.findall('send(.*)', i)[0]
-                print(send_message)
                 await client.send_message(event.chat_id, send_message)
             elif 'sleep' in i:
-                await asyncio.sleep(1.5)
+                sleep_message = re.findall('sleep(.*)', i)[0]
+                await asyncio.sleep(sleep_message)
 
 
 if __name__ == '__main__':

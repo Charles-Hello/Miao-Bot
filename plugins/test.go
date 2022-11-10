@@ -30,13 +30,13 @@ func init() {
 		configs.Admin = false
 		configs.RegBool = true
 		configs.DailyFunction(func() {
-			telegram_bot.Return.OpSlice = append(telegram_bot.Return.OpSlice, "send好兄弟")
-			telegram_bot.Return.OpSlice = append(telegram_bot.Return.OpSlice, "sleep")
-			telegram_bot.Return.OpSlice = append(telegram_bot.Return.OpSlice, "edit好兄弟")
-			telegram_bot.Return.OpSlice = append(telegram_bot.Return.OpSlice, "sleep")
-			telegram_bot.Return.OpSlice = append(telegram_bot.Return.OpSlice, "reply好兄弟")
-			telegram_bot.Return.OpSlice = append(telegram_bot.Return.OpSlice, "sleep")
-			telegram_bot.Return.OpSlice = append(telegram_bot.Return.OpSlice, "delete")
+			telegram_bot.TG_send("好兄弟")
+			telegram_bot.TG_sleep(2)
+			telegram_bot.TG_edit("你怎么了")
+			telegram_bot.TG_sleep(2)
+			telegram_bot.TG_reply("芜湖")
+			telegram_bot.TG_sleep(2)
+			telegram_bot.TG_delete()
 		})
 		return ihttp.FuncFinish(configs.Name, configs.Cron)
 	})
